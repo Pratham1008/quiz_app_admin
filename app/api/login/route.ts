@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     const { uid } = await req.json();
 
-    const backendRes = await fetch(`http://3.85.30.254:8080/public/user/${uid}`);
+    const backendRes = await fetch(`https://quiz-app-backend-cqqf.onrender.com/public/user/${uid}`);
     if (!backendRes.ok) {
         return NextResponse.json({ error: "User fetch failed" }, { status: 401 });
     }

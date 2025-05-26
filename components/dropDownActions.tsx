@@ -18,7 +18,7 @@ export default function QuizDropdown({ quizId }: QuizDropdownProps) {
 
     const handleDelete = async () => {
         try {
-            const res = await authFetch(`http://3.85.30.254:8080/instructor/quiz/${quizId}`, {
+            const res = await authFetch(`https://quiz-app-backend-cqqf.onrender.com/instructor/quiz/${quizId}`, {
                 method: "DELETE"
             });
 

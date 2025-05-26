@@ -117,7 +117,7 @@ export default function AddQuizPage() {
     const onSubmit = async (data: QuizFormValues) => {
         try {
             const uid = auth.currentUser?.uid;
-            const response = await authFetch(`http://3.85.30.254:8080/instructor/addQuiz/${uid}`, {
+            const response = await authFetch(`https://quiz-app-backend-cqqf.onrender.com/instructor/addQuiz/${uid}`, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" },

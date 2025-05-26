@@ -70,7 +70,7 @@ export default function AddInstructorDialog() {
                 uid: "123",
             };
 
-            const response = await authFetch("http://3.85.30.254:8080/admin/instructor/register", {
+            const response = await authFetch("https://quiz-app-backend-cqqf.onrender.com/admin/instructor/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

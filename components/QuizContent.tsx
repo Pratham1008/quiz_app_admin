@@ -20,7 +20,7 @@ export default async function QuizContent() {
     const name = cookieStore.get("name")?.value;
     const role = cookieStore.get("role")?.value;
 
-    const res = await fetch("http://3.85.30.254:8080/public/allQuizzes", {
+    const res = await fetch("https://quiz-app-backend-cqqf.onrender.com/public/allQuizzes", {
         next: { tags: ["quizzes"] },
         cache: "no-store"
     });
