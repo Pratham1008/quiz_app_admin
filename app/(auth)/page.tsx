@@ -57,7 +57,7 @@ export default function Login() {
 
             const uid = credentials.uid;
 
-            const backendRes = await fetch("https://quiz-app-backend-cqqf.onrender.com/public/login", {
+            const backendRes = await fetch("http://3.85.30.254:8080/public/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -38,7 +38,7 @@ export default function QuizResultPage() {
         const fetchResult = async () => {
             try {
                 const response = await authFetch(
-                    `https://quiz-app-backend-cqqf.onrender.com/student/result/${sessionId}?uid=${uid}`
+                    `http://3.85.30.254:8080/student/result/${sessionId}?uid=${uid}`
                 );
                 const data = await response.json();
 
