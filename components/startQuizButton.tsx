@@ -16,7 +16,7 @@ export default function StartQuizButton({ quizId }: StartQuizButtonProps) {
         if (!uid) return alert("User ID not found!");
 
         const res = await authFetch(
-            `https://quiz-app-backend-cqqf.onrender.com/student/start?quizId=${quizId}&uid=${uid}`,
+            `https://api.prathameshcorporation.info/student/start?quizId=${quizId}&uid=${uid}`,
             {
                 method: "POST",
             }

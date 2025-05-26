@@ -26,7 +26,7 @@ export default function QuizAttemptContent({ quizId }: { quizId: string }) {
     const router = useRouter();
 
     useEffect(() => {
-        authFetch(`https://quiz-app-backend-cqqf.onrender.com/student/questions/${quizId}`)
+        authFetch(`https://api.prathameshcorporation.info/student/questions/${quizId}`)
             .then(async (res) => {
                 const text = await res.text();
                 console.log("📦 RAW response:", text);
@@ -52,7 +52,7 @@ export default function QuizAttemptContent({ quizId }: { quizId: string }) {
             return;
         }
 
-        authFetch(`https://quiz-app-backend-cqqf.onrender.com/student/quiz/remaining-time/${sessionId}`)
+        authFetch(`https://api.prathameshcorporation.info/student/quiz/remaining-time/${sessionId}`)
             .then((res) => res.json())
             .then((data: { startTime: string; duration: number }) => {
                 const start = new Date(data.startTime).getTime();
@@ -79,7 +79,7 @@ export default function QuizAttemptContent({ quizId }: { quizId: string }) {
             return;
         }
 
-        authFetch(`https://quiz-app-backend-cqqf.onrender.com/student/quiz/submit/${sessionId}?uid=${auth.currentUser?.uid}`, {
+        authFetch(`https://api.prathameshcorporation.info/student/quiz/submit/${sessionId}?uid=${auth.currentUser?.uid}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(sessionAnswers),

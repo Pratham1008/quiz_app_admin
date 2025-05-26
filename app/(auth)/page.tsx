@@ -57,7 +57,7 @@ export default function Login() {
 
             const uid = credentials.uid;
 
-            const backendRes = await fetch("https://quiz-app-backend-cqqf.onrender.com/public/login", {
+            const backendRes = await fetch("https://api.prathameshcorporation.info/public/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

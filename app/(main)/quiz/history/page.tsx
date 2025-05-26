@@ -40,7 +40,8 @@ export default function QuizHistoryPage() {
         const fetchResults = async () => {
             try {
                 await new Promise((resolve) => setTimeout(resolve, 1000)); // 1s artificial delay
-                const response = await authFetch(`https://quiz-app-backend-cqqf.onrender.com/student/results/${uid}`);
+                const response = await authFetch(`https://api.prathameshcorporation.info
+/student/results/${uid}`);
                 const data = await response.json();
 
                 if (!Array.isArray(data)) {
@@ -71,7 +72,7 @@ export default function QuizHistoryPage() {
         if (!deleteId) return;
 
         try {
-            const res = await authFetch(`https://quiz-app-backend-cqqf.onrender.com/student/result/delete/${deleteId}`, {
+            const res = await authFetch(`https://api.prathameshcorporation.info/student/result/delete/${deleteId}`, {
                 method: 'DELETE',
             });
 

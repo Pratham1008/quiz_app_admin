@@ -69,7 +69,7 @@ export default function SignUp() {
         uid: string | undefined;
     }, uid: string) => {
         try {
-            const response = await fetch("https://quiz-app-backend-cqqf.onrender.com/public/student/register", {
+            const response = await fetch("https://api.prathameshcorporation.info/public/student/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

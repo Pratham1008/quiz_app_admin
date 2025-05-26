@@ -49,7 +49,7 @@ export default function AdminContent() {
     const [newRole, setNewRole] = useState("");
 
     useEffect(() => {
-        authFetch("https://quiz-app-backend-cqqf.onrender.com/admin/users")
+        authFetch("https://api.prathameshcorporation.info/admin/users")
             .then((res) => res.json())
             .then(setUsers)
             .catch(() => toast.error("Failed to load users!"));
