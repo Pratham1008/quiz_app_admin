@@ -79,6 +79,7 @@ export default function QuizHistoryPage() {
             if (!res.ok) {
                 throw new Error("Backend call failed");
             }
+
             toast.success("Email sent successfully!");
         } catch (err) {
             console.error("Error in API route:", err);
@@ -175,7 +176,7 @@ export default function QuizHistoryPage() {
 
                             <div className="flex justify-between items-center">
                                 <Link
-                                    href={`/quiz/history`}
+                                    href={`/quiz/result`}
                                     className="text-sm text-indigo-600 hover:underline"
                                 >
                                     <Button variant="ghost" className="px-2 h-8" onClick={() => handleEmailSent(result.resultId)}>
