@@ -69,7 +69,7 @@ export default function QuizHistoryPage() {
 
     const handleEmailSent = async (resultId: string) => {
         try {
-            const res = await authFetch(`https://api.prathameshcorporation.info/admin/result/send?resultId=${resultId}`, {
+            const res = await authFetch(`https://api.prathameshcorporation.info/student/result/send?resultId=${resultId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
