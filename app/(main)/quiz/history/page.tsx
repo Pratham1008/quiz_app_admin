@@ -175,7 +175,7 @@ export default function QuizHistoryPage() {
 
                             <div className="flex justify-between items-center">
                                 <Link
-                                    href={``}
+                                    href={`/quiz/history`}
                                     className="text-sm text-indigo-600 hover:underline"
                                 >
                                     <Button variant="ghost" className="px-2 h-8" onClick={() => handleEmailSent(result.resultId)}>
