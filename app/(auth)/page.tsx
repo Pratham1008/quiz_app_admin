@@ -83,7 +83,6 @@ export default function Login() {
 
             localStorage.setItem("authToken", backendData.token);
 
-            router.replace("/home");
             window.location.reload()
         } catch (error) {
             console.error("Login error:", error);

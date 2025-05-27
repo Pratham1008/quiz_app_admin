@@ -1,9 +1,10 @@
+import { cookies } from "next/headers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import StartQuizButton from "@/components/startQuizButton";
 import QuizDropdown from "@/components/dropDownActions";
-import { cookies } from "next/headers";
 import Link from "next/link";
+import QuizSkeleton from "@/components/quizSkeleton";
 
 interface Quiz {
     id: string;
@@ -20,9 +21,13 @@ export default async function QuizContent() {
     const name = cookieStore.get("name")?.value;
     const role = cookieStore.get("role")?.value;
 
+    if (!name || !role) {
+        return <QuizSkeleton />;
+    }
+
     const res = await fetch("https://api.prathameshcorporation.info/public/allQuizzes", {
         next: { tags: ["quizzes"] },
-        cache: "no-store"
+        cache: "no-store",
     });
 
     if (!res.ok) throw new Error("Failed to fetch quizzes");
@@ -34,7 +39,7 @@ export default async function QuizContent() {
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h2 className="text-xl font-semibold">Welcome, {name}</h2>
-                    <p className="text-muted-foreground text-sm capitalize">{role?.toLowerCase()}</p>
+                    <p className="text-muted-foreground text-sm capitalize">{role.toLowerCase()}</p>
                 </div>
                 {role === "INSTRUCTOR" && (
                     <Link
@@ -94,12 +99,16 @@ export default async function QuizContent() {
                                     <td className="p-3">{new Date(quiz.startTime).toLocaleString()}</td>
                                     <td className="p-3">{new Date(quiz.endTime).toLocaleString()}</td>
                                     <td className="p-3">
-                                            <span className={cn(
-                                                "px-2 py-1 rounded-full text-xs font-semibold",
-                                                new Date(quiz.endTime) > new Date() ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                                            )}>
-                                                {new Date(quiz.endTime) > new Date() ? "Active" : "Inactive"}
-                                            </span>
+                      <span
+                          className={cn(
+                              "px-2 py-1 rounded-full text-xs font-semibold",
+                              new Date(quiz.endTime) > new Date()
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-red-100 text-red-700"
+                          )}
+                      >
+                        {new Date(quiz.endTime) > new Date() ? "Active" : "Inactive"}
+                      </span>
                                     </td>
                                     {role === "STUDENT" && (
                                         <td className="p-3">

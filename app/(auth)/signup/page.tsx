@@ -85,7 +85,6 @@ export default function SignUp() {
                     body: JSON.stringify({ uid }),
                 });
                 setIsSubmitted(true);
-                router.replace("/home");
                 window.location.reload();
             } else {
                 console.error("Backend registration error:", data);

@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import AddInstructorDialog from "@/components/AddInstructorDialog";
 import { authFetch } from "@/lib/authFetch";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface User {
     name: string;
@@ -44,6 +45,7 @@ const roleColorMap: Record<string, string> = {
 
 export default function AdminContent() {
     const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [dialogType, setDialogType] = useState<"delete" | "change-role-confirm" | "role-warning" | null>(null);
     const [newRole, setNewRole] = useState("");
@@ -51,8 +53,14 @@ export default function AdminContent() {
     useEffect(() => {
         authFetch("https://api.prathameshcorporation.info/admin/users")
             .then((res) => res.json())
-            .then(setUsers)
-            .catch(() => toast.error("Failed to load users!"));
+            .then((data) => {
+                setUsers(data);
+                setLoading(false);
+            })
+            .catch(() => {
+                toast.error("Failed to load users!");
+                setLoading(false);
+            });
     }, []);
 
     const openChangeRoleDialog = (user: User) => {
@@ -113,47 +121,78 @@ export default function AdminContent() {
                         </tr>
                         </thead>
                         <tbody>
-                        {users.map((user, index) => (
-                            <motion.tr
-                                key={user.email}
-                                initial={{ opacity: 0, y: 5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.03 }}
-                                className="border-b hover:bg-muted/20"
-                            >
-                                <td className="p-3 flex items-center gap-3 font-medium">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarFallback>{user.name[0]}</AvatarFallback>
-                                    </Avatar>
-                                    {user.name}
-                                </td>
-                                <td className="p-3 text-gray-700">{user.email}</td>
-                                <td className="p-3">
-                                    <Badge className={roleColorMap[user.role] || ""}>
-                                        {user.role.toLowerCase()}
-                                    </Badge>
-                                </td>
-                                <td className="p-3 flex gap-4">
-                                    <Button
-                                        variant="link"
-                                        className="text-blue-600 p-0 h-auto text-sm"
-                                        onClick={() => openChangeRoleDialog(user)}
-                                    >
-                                        Change Role
-                                    </Button>
-                                    <Button
-                                        variant="link"
-                                        className="text-red-600 p-0 h-auto text-sm"
-                                        onClick={() => {
-                                            setSelectedUser(user);
-                                            setDialogType("delete");
-                                        }}
-                                    >
-                                        Delete
-                                    </Button>
-                                </td>
-                            </motion.tr>
-                        ))}
+                        {loading ? (
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <motion.tr
+                                    key={index}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                    className="border-b"
+                                >
+                                    <td className="p-3">
+                                        <div className="flex items-center gap-3">
+                                            <Skeleton className="h-8 w-8 rounded-full" />
+                                            <Skeleton className="h-4 w-24" />
+                                        </div>
+                                    </td>
+                                    <td className="p-3">
+                                        <Skeleton className="h-4 w-40" />
+                                    </td>
+                                    <td className="p-3">
+                                        <Skeleton className="h-5 w-20 rounded-full" />
+                                    </td>
+                                    <td className="p-3">
+                                        <div className="flex gap-4">
+                                            <Skeleton className="h-4 w-20" />
+                                            <Skeleton className="h-4 w-16" />
+                                        </div>
+                                    </td>
+                                </motion.tr>
+                            ))
+                        ) : (
+                            users.map((user, index) => (
+                                <motion.tr
+                                    key={user.email}
+                                    initial={{ opacity: 0, y: 5 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.03 }}
+                                    className="border-b hover:bg-muted/20"
+                                >
+                                    <td className="p-3 flex items-center gap-3 font-medium">
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarFallback>{user.name[0]}</AvatarFallback>
+                                        </Avatar>
+                                        {user.name}
+                                    </td>
+                                    <td className="p-3 text-gray-700">{user.email}</td>
+                                    <td className="p-3">
+                                        <Badge className={roleColorMap[user.role] || ""}>
+                                            {user.role.toLowerCase()}
+                                        </Badge>
+                                    </td>
+                                    <td className="p-3 flex gap-4">
+                                        <Button
+                                            variant="link"
+                                            className="text-blue-600 p-0 h-auto text-sm"
+                                            onClick={() => openChangeRoleDialog(user)}
+                                        >
+                                            Change Role
+                                        </Button>
+                                        <Button
+                                            variant="link"
+                                            className="text-red-600 p-0 h-auto text-sm"
+                                            onClick={() => {
+                                                setSelectedUser(user);
+                                                setDialogType("delete");
+                                            }}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </motion.tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                 </CardContent>
@@ -172,14 +211,11 @@ export default function AdminContent() {
                             <SelectValue placeholder="Select role" />
                         </SelectTrigger>
                         <SelectContent>
-                            {/* Current Role (disabled) */}
                             {selectedUser?.role && (
                                 <SelectItem value={selectedUser.role} disabled>
                                     Current: {selectedUser.role.charAt(0) + selectedUser.role.slice(1).toLowerCase()}
                                 </SelectItem>
                             )}
-
-                            {/* Other roles */}
                             {["STUDENT", "INSTRUCTOR", "ADMIN"]
                                 .filter(role => role !== selectedUser?.role)
                                 .map(role => (
@@ -200,7 +236,6 @@ export default function AdminContent() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-
 
             {/* Role Warning Dialog */}
             <Dialog open={dialogType === "role-warning"} onOpenChange={() => setDialogType(null)}>
