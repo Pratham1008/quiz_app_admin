@@ -20,9 +20,9 @@ export async function GET(
             throw new Error("Backend call failed");
         }
 
-        return NextResponse.redirect(new URL(req.url));
+        return NextResponse.redirect("/home");
     } catch (err) {
         console.error("Error in API route:", err);
-        return NextResponse.redirect(new URL(req.url));
+        return NextResponse.redirect("/home");
     }
 }
