@@ -67,6 +67,24 @@ export default function QuizHistoryPage() {
         setIsDialogOpen(true);
     };
 
+    const handleEmailSent = async (resultId: string) => {
+        try {
+            const res = await authFetch(`https://api.prathameshcorporation.info/admin/result/send?resultId=${resultId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error("Backend call failed");
+            }
+            toast.success("Email sent successfully!");
+        } catch (err) {
+            console.error("Error in API route:", err);
+        }
+    }
+
     const handleDeleteConfirmed = async () => {
         if (!deleteId) return;
 
@@ -157,10 +175,12 @@ export default function QuizHistoryPage() {
 
                             <div className="flex justify-between items-center">
                                 <Link
-                                    href={`/api/send/${result.resultId}`}
+                                    href={``}
                                     className="text-sm text-indigo-600 hover:underline"
                                 >
-                                    Get Detailed Result →
+                                    <Button variant="ghost" className="px-2 h-8" onClick={() => handleEmailSent(result.resultId)}>
+                                        Get Detailed Result →
+                                    </Button>
                                 </Link>
 
                                 <button
