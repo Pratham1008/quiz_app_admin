@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import {authFetch} from "@/lib/authFetch";
 
 export async function GET(
     req: NextRequest,
@@ -7,7 +8,7 @@ export async function GET(
     const resultId  = (await params).resultId;
 
     try {
-        const res = await fetch(`https://api.prathameshcorporation.info/admin/result/send?resultId=${resultId}`, {
+        const res = await authFetch(`https://api.prathameshcorporation.info/admin/result/send?resultId=${resultId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -19,9 +20,9 @@ export async function GET(
             throw new Error("Backend call failed");
         }
 
-        return NextResponse.redirect(new URL("/some-page?status=success", req.url));
+        return NextResponse.redirect(new URL(req.url));
     } catch (err) {
         console.error("Error in API route:", err);
-        return NextResponse.redirect(new URL("/some-page?status=error", req.url));
+        return NextResponse.redirect(new URL(req.url));
     }
 }
