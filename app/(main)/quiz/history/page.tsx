@@ -39,9 +39,8 @@ export default function QuizHistoryPage() {
 
         const fetchResults = async () => {
             try {
-                await new Promise((resolve) => setTimeout(resolve, 1000)); // 1s artificial delay
-                const response = await authFetch(`https://api.prathameshcorporation.info
-/student/results/${uid}`);
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                const response = await authFetch(`https://api.prathameshcorporation.info/student/results/${uid}`);
                 const data = await response.json();
 
                 if (!Array.isArray(data)) {
@@ -158,10 +157,10 @@ export default function QuizHistoryPage() {
 
                             <div className="flex justify-between items-center">
                                 <Link
-                                    href={`/quiz/result/${result.sessionId}?uid=${uid}`}
+                                    href={`/api/send/${result.resultId}`}
                                     className="text-sm text-indigo-600 hover:underline"
                                 >
-                                    View Detailed Result →
+                                    Get Detailed Result →
                                 </Link>
 
                                 <button

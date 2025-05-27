@@ -80,16 +80,50 @@ export default function AdminContent() {
 
     const handleRoleChange = () => {
         if (!selectedUser || !newRole) return;
-        toast.info(`${selectedUser.name}'s role changed to ${newRole}`);
         setUsers(prev => prev.map(u => u.email === selectedUser.email ? { ...u, role: newRole } : u));
+        authFetch(`https://api.prathameshcorporation.info/admin/users?email=${selectedUser.email}&role=${newRole}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                toast.info(data.token, {
+                    duration: 10000,
+                    position: "top-right",
+                    icon: "🎉",
+                    className: "text-green-600",
+                })
+                setLoading(false);
+            })
+            .catch(() => {
+                toast.error("Failed to change the Role");
+                setLoading(false);
+            });
         setDialogType(null);
         setNewRole("");
     };
 
     const handleDelete = () => {
         if (!selectedUser) return;
-        toast.info(`${selectedUser.name} deleted.`);
         setUsers(users.filter(u => u.email !== selectedUser.email));
+        authFetch(`https://api.prathameshcorporation.info/admin/users?email=${selectedUser.email}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                toast.info(data.token, {
+                    duration: 10000,
+                    position: "top-right",
+                    icon: "🎉",
+                    className: "text-green-600",
+                })
+                setLoading(false);
+            })
+            .catch(() => {
+                toast.error("Failed to change the Role");
+                setLoading(false);
+            });
         setDialogType(null);
     };
 
