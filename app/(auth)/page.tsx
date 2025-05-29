@@ -56,6 +56,7 @@ export default function Login() {
             const credentials = await signInWithEmailPassword(values.email, values.password);
 
             const uid = credentials.uid;
+            const idToken = credentials.getIdToken(true)
 
             const backendRes = await fetch("https://api.prathameshcorporation.info/public/login", {
                 method: "POST",
@@ -63,8 +64,7 @@ export default function Login() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    email: values.email,
-                    password: values.password,
+                    idToken
                 }),
             });
 

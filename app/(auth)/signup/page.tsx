@@ -64,7 +64,6 @@ export default function SignUp() {
     const registerUserOnBackend = async (user: {
         name: string;
         email: string;
-        password: string;
         mobileNo: string;
         uid: string | undefined;
     }, uid: string) => {
@@ -109,7 +108,6 @@ export default function SignUp() {
             const userData = {
                 name: values.name,
                 email: values.email,
-                password: values.password,
                 mobileNo: fullPhone,
                 uid: userCredential?.uid,
             };
